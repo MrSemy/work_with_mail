@@ -1,0 +1,11 @@
+{% extends "main.html" %}
+
+{% block content %}
+<h2>Страница авторизованного пользователя {{request.user.username}}</h2>
+<button> <a href="subscribe/"> Оформить подписку</a> </button>
+{% if common %}
+<button> <a href="sign/upgrade/"> Хочу стать Автором!</a> </button>
+{% endif %}
+<button> <a href="news/"> Читать новости!</a> </button>
+<button> <a href="sign/logout/">Выйти</a> </button>
+{% endblock %}

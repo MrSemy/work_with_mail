@@ -1,0 +1,34 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+<!-- Название у нас будет products -->
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+   <h1>Подробности поста</h1>
+   <!-- Используем переданную из представления переменную time_now
+   и применяем к ней фильтр date. По назначению этот фильтр очень похож
+   на метод strftime у объекта datetime в Python — вывод времени
+   в указанном формате. -->
+   <h3>{{ time_now|date:'M d Y' }}</h3>
+   <hr>
+       <table>
+           <tr>
+               <td><h2>Название</h2></td>
+               <td><h2>Дата публикации</h2></td>
+               <td><h2>Полный текст</h2></td>
+           </tr>
+           <tr>
+               <td>{{ post.title_of_post|censor }}</td>
+               <td>{{ post.date_of_post|date:'d M Y' }}</td>
+               <!--<td>{{ post.post_text|censor }}</td>-->
+               <td>{{ post.post_text|censor }}</td>
+           </tr>
+
+       </table>
+
+{% endblock content %}

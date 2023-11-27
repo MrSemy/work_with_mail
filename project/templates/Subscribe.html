@@ -1,0 +1,15 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Подписка на категории</h1>
+    <form method="post" action="{% url 'subscribe' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <td>{{ post.category }}</td>
+        <button type="submit">Подписаться</button>
+    </form>
+</body>
+</html>
