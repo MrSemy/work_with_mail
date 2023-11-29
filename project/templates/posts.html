@@ -1,0 +1,71 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{# Импортируем модуль с нашим тегом #}
+{% load custom_tags %}
+<!-- Название у нас будет products -->
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+   <h1>Все посты</h1>
+   <button> <a href="create/"> Опубликовать новость!</a> </button>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <label for="start">Начальная дата:</label>
+       <input type="date" id="start" name="date_of_post__gt" value="2023-10-14" min="2018-01-01" max="2028-12-31" />
+       <input type="submit" value="Найти" />
+
+   </form>
+
+   <!-- Используем переданную из представления переменную time_now
+   и применяем к ней фильтр date. По назначению этот фильтр очень похож
+   на метод strftime у объекта datetime в Python — вывод времени
+   в указанном формате. -->
+   <h3>{{ time_now|date:'M d Y' }}</h3>
+   <hr>
+   {% if posts %}
+       <table>
+           <tr>
+               <td><h2>Название</h2></td>
+               <td><h2>Дата публикации</h2></td>
+               <td><h2>Предпросмотр текста</h2></td>
+           </tr>
+
+           {% for post in posts %}
+           <tr>
+               <td>{{ post.title_of_post|censor }}</td>
+               <td>{{ post.date_of_post}}</td>
+               <!--<td>{{ post.post_text|censor }}</td>-->
+               <td>{{ post.preview|censor }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+        {{ posts }}
+       <h2>Постов нет!</h2>
+   {% endif %}
+
+   {% if page_obj.has_previous %}
+       {# Для каждой ссылки пагинации указываем обработку через новый тег #}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   {{ page_obj.number }}
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}

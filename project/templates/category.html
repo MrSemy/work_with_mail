@@ -1,0 +1,18 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Подписка на категории</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% for categor in category %}
+        <br><td>{{ categor }}</td></br>
+        <br><td>Количество постов в данной категории: {{ categor.post_set.count }}</td></br>
+        <button> <a href="category/1/subscribe"> Подписаться!</a> </button>
+        {% endfor %}
+    </form>
+</body>
+</html>
